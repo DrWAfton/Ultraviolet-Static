@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>andy-made-it-allbyhimself</title>
     
-    <!-- 1. The Proxy "Brain" Scripts -->
     <script src="/uv/uv.bundle.js"></script>
     <script src="/uv/uv.config.js"></script>
 
@@ -13,88 +12,125 @@
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
         
         #desktop {
-            /* 2. Fixed Wallpaper Link */
             background: url('https://images.unsplash.com') no-repeat center center fixed;
             background-size: cover;
-            height: 100vh;
-            width: 100vw;
-            position: relative;
+            height: 100vh; width: 100vw; position: relative;
         }
 
         .icon {
-            width: 90px; text-align: center; color: white; cursor: pointer;
+            width: 100px; text-align: center; color: white; cursor: pointer;
             padding: 15px; margin: 10px; border-radius: 12px; transition: 0.3s;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .icon:hover { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
-        .icon img { width: 55px; display: block; margin: 0 auto 8px; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); }
+        .icon img { width: 60px; display: block; margin: 0 auto 8px; }
 
         #window {
-            width: 750px; height: 500px; background: white;
-            position: absolute; top: 10%; left: 15%;
-            border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            width: 850px; height: 550px; background: #1a1a1a;
+            position: absolute; top: 5%; left: 10%;
+            border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             display: none; flex-direction: column; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
-            z-index: 10;
+            z-index: 10; border: 2px solid #444;
         }
 
         #title-bar {
-            background: #222; color: white; padding: 12px; display: flex;
-            justify-content: space-between; cursor: move;
+            background: #333; color: white; padding: 12px; display: flex;
+            justify-content: space-between; align-items: center;
         }
 
-        #close-btn { 
-            background: #ff5f56; width: 15px; height: 15px; 
-            border-radius: 50%; color: transparent; cursor: pointer; 
-        }
-        #close-btn:hover { color: black; text-align: center; line-height: 15px; font-size: 10px; content: 'x'; }
+        .window-controls { display: flex; gap: 10px; }
+        .btn { padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; border: none; color: white; }
+        .home-btn { background: #4a90e2; }
+        .close-btn { background: #ff5f56; }
 
-        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; }
+        /* THE GAME MENU STYLING */
+        #game-menu {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            align-items: center; height: 100%; gap: 20px; padding: 20px;
+            background: #121212; overflow-y: auto;
+        }
+
+        .mod-card {
+            width: 180px; background: #252525; padding: 15px; border-radius: 10px;
+            text-align: center; cursor: pointer; border: 2px solid transparent; transition: 0.3s;
+        }
+        .mod-card:hover { border-color: #ffde00; transform: scale(1.05); }
+        .mod-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+        .mod-card span { color: white; font-weight: bold; display: block; }
+
+        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; display: none; }
 
         #taskbar {
-            position: absolute; bottom: 0; width: 100%;
-            height: 55px; background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(10px);
-            display: flex; align-items: center; padding: 0 15px;
-            box-sizing: border-box;
-            z-index: 100;
+            position: absolute; bottom: 0; width: 100%; height: 55px;
+            background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 15px; z-index: 100;
         }
-
-        .start-btn {
-            background: rgba(255,255,255,0.1); color: white; border: none;
-            padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;
-        }
-        .start-btn:hover { background: rgba(255,255,255,0.3); }
+        .start-btn { background: #ffde00; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="desktop">
-    <!-- Game Icon -->
+    <!-- Main FNF Icon -->
     <div class="icon" onclick="openWindow()">
-        <img src="https://cdn-icons-png.flaticon.com" alt="games">
-        <span>Andy's Games</span>
+        <img src="https://cdn-icons-png.flaticon.com" alt="fnf">
+        <span>FNF Mods</span>
     </div>
 
     <!-- The OS Window -->
     <div id="window">
         <div id="title-bar">
-            <span>Andy's Secret Stuff</span>
-            <div id="close-btn" onclick="closeWindow()">x</div>
+            <span>Andy's FNF Hub</span>
+            <div class="window-controls">
+                <button class="btn home-btn" onclick="showMenu()">Menu</button>
+                <button class="btn close-btn" onclick="closeWindow()">X</button>
+            </div>
         </div>
-        <!-- 3. THIS LINK FIXES THE MIRROR EFFECT -->
-        <iframe src="https://plain-html-games.github.io"></iframe>
+
+        <!-- The Menu of Games -->
+        <div id="game-menu">
+            <div class="mod-card" onclick="loadGame('https://ninjamuffin99.github.io')">
+                <img src="https://wallpapers.com" alt="original">
+                <span>Original FNF</span>
+            </div>
+            <div class="mod-card" onclick="loadGame('https://kbhgames.com')">
+                <img src="https://art.pixilart.com" alt="whitty">
+                <span>Whitty Mod</span>
+            </div>
+            <div class="mod-card" onclick="loadGame('https://kbhgames.com')">
+                <img src="https://cdn.worldvectorlogo.com" alt="tricky">
+                <span>Tricky Mod</span>
+            </div>
+        </div>
+
+        <!-- The actual game area -->
+        <iframe id="game-frame" src=""></iframe>
     </div>
 
-    <!-- Taskbar -->
     <div id="taskbar">
         <button class="start-btn">Yo, it's Andy</button>
     </div>
 </div>
 
 <script>
-    function openWindow() { document.getElementById('window').style.display = 'flex'; }
-    function closeWindow() { document.getElementById('window').style.display = 'none'; }
+    const win = document.getElementById('window');
+    const menu = document.getElementById('game-menu');
+    const frame = document.getElementById('game-frame');
+
+    function openWindow() { win.style.display = 'flex'; showMenu(); }
+    function closeWindow() { win.style.display = 'none'; frame.src = ""; }
+    
+    function loadGame(url) {
+        menu.style.display = 'none';
+        frame.style.display = 'block';
+        // This uses your proxy structure to unblock the mod sites!
+        frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+    }
+
+    function showMenu() {
+        menu.style.display = 'flex';
+        frame.style.display = 'none';
+        frame.src = "";
+    }
 </script>
 
 </body>
