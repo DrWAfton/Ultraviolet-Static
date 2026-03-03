@@ -15,14 +15,14 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
         
-        /* THE PERFECT 1:1 CLOAK - USES YOUR NEW DIRECT LINK */
+        /* THE NEW ENGLISH CLOAK - 1:1 MATCH */
         #ixl-cloak {
             height: 100vh; width: 100vw; 
-            background: #78d6ad url('https://i.imgur.com/ryuXoMX.png') no-repeat center center;
+            background: #78d6ad url('https://i.imgur.com/v7yPAMM.png') no-repeat center center;
             background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000;
         }
-        /* SECRET ENTRANCE: THE TOP LEFT LOGO AREA */
-        #unlock-trigger { position: absolute; top: 0; left: 0; width: 200px; height: 100px; cursor: default; z-index: 6000; }
+        /* SECRET ENTRANCE: TOP LEFT LOGO AREA (ADJUSTED FOR NEW PHOTO) */
+        #unlock-trigger { position: absolute; top: 0; left: 0; width: 220px; height: 90px; cursor: default; z-index: 6000; }
 
         /* THE SECRET HUB */
         #desktop { height: 100vh; width: 100vw; position: relative; background: #0f172a; display: none; z-index: 10; }
@@ -36,13 +36,11 @@
 </head>
 <body>
 
-<!-- THIS IS THE CLOAK (YOUR PHOTO) -->
 <div id="ixl-cloak">
-    <!-- DOUBLE-CLICK the 'IXL Learning' logo in your photo to unlock -->
+    <!-- DOUBLE-CLICK the 'IXL Learning' logo in your NEW photo to unlock -->
     <div id="unlock-trigger" ondblclick="unlock()"></div>
 </div>
 
-<!-- THIS IS THE SECRET HUB -->
 <div id="desktop">
     <div style="color:white; padding:20px; cursor:pointer;" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
@@ -73,74 +71,24 @@
     async function search() {
         const input = document.getElementById('search-input').value.trim();
         const frame = document.getElementById('game-frame');
-        if (!input) return;
-        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-        
-async function search() {
-    const input = document.getElementById('search-input').value.trim();
-    const frame = document.getElementById('game-frame');
-    const gameWindow = document.getElementById('window');
-    
-    if (!input) return;
-
-    let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-    
-    if ('serviceWorker' in navigator) {
-        try {
-            await navigator.serviceWorker.register('/sw.js');
-            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-            frame.src = "/uv/service/" + encoded;
-            gameWindow.style.display = 'flex';
-        } catch (err) {
-            frame.src = url;
-            gameWindow.style.display = 'flex';
-        }
-    }
-}
-
-<script>
-    // 1. THE STEALTH CONTROLS
-    function unlock() {
-        document.getElementById('ixl-cloak').style.display = 'none';
-        document.getElementById('desktop').style.display = 'block';
-    }
-
-    function lockScreen() {
-        document.getElementById('ixl-cloak').style.display = 'block';
-        document.getElementById('desktop').style.display = 'none';
-    }
-
-    // 2. THE SEARCH BRAIN (FIXED)
-    async function search() {
-        const input = document.getElementById('search-input').value.trim();
-        const frame = document.getElementById('game-frame');
         const gameWindow = document.getElementById('window');
-        
         if (!input) return;
 
-        // URL Formatter
         let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
         
         if ('serviceWorker' in navigator) {
             try {
-                // Register the worker from the Main Lobby
                 await navigator.serviceWorker.register('/sw.js');
-                
-                // Scramble the URL to trick iBoss
                 const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                
-                // Load the game and show the window
                 frame.src = "/uv/service/" + encoded;
                 gameWindow.style.display = 'flex';
             } catch (err) {
-                // Fail-safe if proxy is waking up
                 frame.src = url;
                 gameWindow.style.display = 'flex';
             }
         }
     }
 </script>
-
 
 </body>
 </html>
