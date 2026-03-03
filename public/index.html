@@ -5,7 +5,6 @@
     <meta title="andy-made-it-allbyhimself">
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
-        // Emergency Config
         window.__uv$config = {
             prefix: '/uv/service/',
             bare: 'https://bare.benroberts.dev', 
@@ -37,22 +36,24 @@
             <iframe id="game-frame"></iframe>
         </div>
     </div>
-    <script>
+       <script>
         async function search() {
             const input = document.getElementById('search-input').value;
             const frame = document.getElementById('game-frame');
-            let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
             
-            // Try to register the worker one last time
-            if ('serviceWorker' in navigator) {
-                try {
-                    await navigator.serviceWorker.register('/sw.js');
-                    frame.src = "/uv/service/" + __uv$config.encodeUrl(url);
-                } catch (e) {
-                    frame.src = url;
-                }
+            let url = input;
+            if (!url.includes('.') || url.includes(' ')) {
+                url = 'https://www.google.com' + encodeURIComponent(url);
+            } else if (!url.startsWith('http')) {
+                url = 'https://' + url;
             }
+
+            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+            
+            frame.src = "/uv/service/" + encoded;
+            document.getElementById('window').style.display = 'flex';
         }
     </script>
+
 </body>
 </html>
