@@ -54,3 +54,30 @@
     </script>
 </body>
 </html>
+<button onclick="launchCloaking()" style="padding:10px; background:#ffde00; border-radius:5px; cursor:pointer;">
+
+</button>
+
+<script>
+function launchCloaking() {
+    const win = window.open();
+    const url = window.location.href;
+    const iframe = win.document.createElement('iframe');
+
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    iframe.src = url;
+
+    win.document.body.style.margin = "0";
+    win.document.body.style.padding = "0";
+    win.document.body.appendChild(iframe);
+
+    
+    win.document.title = "Google Classroom";
+    const link = win.document.createElement('link');
+    link.rel = 'icon';
+    link.href = 'https://ssl.gstatic.com';
+    win.document.head.appendChild(link);
+}
+</script>
