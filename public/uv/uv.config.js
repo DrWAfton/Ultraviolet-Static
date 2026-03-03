@@ -1,10 +1,10 @@
-self.__uv$config = {
-    prefix: '/uv/service/',
-    bare: 'https://uv.student-t.cc', 
-    encodeUrl: Ultraviolet.codec.xor.encode,
-    decodeUrl: Ultraviolet.codec.xor.decode,
-    handler: '/uv/uv.handler.js',
-    bundle: '/uv/uv.bundle.js',
-    config: '/uv/uv.config.js',
-    sw: '/uv/uv.sw.js',
-};
+importScripts('https://cdn.jsdelivr.net');
+importScripts('https://cdn.jsdelivr.net');
+importScripts('https://cdn.jsdelivr.net');
+
+const sw = new UVServiceWorker();
+
+self.addEventListener('fetch', (event) => {
+    // This is the "Magic" that tells the proxy to clean the security headers
+    event.respondWith(sw.fetch(event));
+});
