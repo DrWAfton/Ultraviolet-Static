@@ -83,7 +83,49 @@
             document.getElementById('window').style.display = 'flex';
         }
     }
+<script>
+    // 1. THE STEALTH CONTROLS
+    function unlock() {
+        document.getElementById('ixl-cloak').style.display = 'none';
+        document.getElementById('desktop').style.display = 'block';
+    }
+
+    function lockScreen() {
+        document.getElementById('ixl-cloak').style.display = 'block';
+        document.getElementById('desktop').style.display = 'none';
+    }
+
+    // 2. THE SEARCH BRAIN (FIXED)
+    async function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const frame = document.getElementById('game-frame');
+        const gameWindow = document.getElementById('window');
+        
+        if (!input) return;
+
+        // URL Formatter
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+        
+        if ('serviceWorker' in navigator) {
+            try {
+                // Register the worker from the Main Lobby
+                await navigator.serviceWorker.register('/sw.js');
+                
+                // Scramble the URL to trick iBoss
+                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                
+                // Load the game and show the window
+                frame.src = "/uv/service/" + encoded;
+                gameWindow.style.display = 'flex';
+            } catch (err) {
+                // Fail-safe if proxy is waking up
+                frame.src = url;
+                gameWindow.style.display = 'flex';
+            }
+        }
+    }
 </script>
+
 
 </body>
 </html>
