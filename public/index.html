@@ -7,7 +7,7 @@
     <script>
         window.__uv$config = {
             prefix: '/uv/service/',
-            bare: 'https://bare.benroberts.dev', 
+            bare: 'https://uv.holyubofficial.net', 
             encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
             decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
         };
@@ -18,7 +18,7 @@
         .icon { width: 100px; text-align: center; cursor: pointer; padding: 20px; float: left; }
         #window { width: 90%; height: 85%; background: white; position: absolute; top: 5%; left: 5%; border-radius: 10px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px black; z-index: 10; }
         #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; align-items: center; }
-        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
+        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; color: black; }
         iframe { border: none; flex-grow: 1; width: 100%; height: 100%; background: white; }
         .btn { cursor: pointer; border: none; padding: 5px 15px; border-radius: 5px; background: #ff5f56; color: white; font-weight: bold; }
         #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
@@ -29,13 +29,13 @@
 <body>
 
 <div id="desktop">
-    <div class="icon" onclick="document.getElementById('window').style.display='flex'">
+    <div class="icon" onclick="openGameMenu()">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
     </div>
 
     <div id="window">
         <div id="title-bar">
-            <input type="text" id="search-input" placeholder="Enter Snokido URL or search Google..." onkeydown="if(event.key==='Enter') search()">
+            <input type="text" id="search-input" placeholder="Search Google or enter URL...">
             <button class="btn" onclick="document.getElementById('window').style.display='none'">X</button>
         </div>
         <iframe id="game-frame"></iframe>
@@ -48,73 +48,43 @@
 </div>
 
 <script>
-    async function search() {
-        const input = document.getElementById('search-input').value;
-        const frame = document.getElementById('game-frame');
-        
-        // 1. Process the URL
-        let url = input.trim();
-        if (!url.includes('.') || url.includes(' ')) {
-            url = 'https://www.google.com' + encodeURIComponent(url);
-        } else if (!url.startsWith('http')) {
-            url = 'https://' + url;
-        }
+    const searchInput = document.getElementById('search-input');
+    const gameFrame = document.getElementById('game-frame');
+    const gameWindow = document.getElementById('window');
 
-        if ('serviceWorker' in navigator) {
-            try {
-                await navigator.serviceWorker.register('/sw.js');
-                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                frame.src = "/uv/service/" + encoded;
-                document.getElementById('window').style.display = 'flex';
-            } catch (e) {
-                // If service worker fails, try a direct (risky) load
-                frame.src = url;
-                document.getElementById('window').style.display = 'flex';
-            }
-        }
+    function openGameMenu() {
+        gameWindow.style.display = 'flex';
     }
 
-    function launchCloaking() {
-        var win = window.open();
-        var url = window.location.href;
-        var iframe = win.document.createElement('iframe');
-        iframe.style.width = "100vw";
-        iframe.style.height = "100vh";
-        iframe.style.border = "none";
-        iframe.style.position = "fixed";
-        iframe.style.top = "0";
-        iframe.style.left = "0";
-        iframe.src = url;
-        win.document.body.style.margin = "0";
-        win.document.body.appendChild(iframe);
-        win.document.title = "Google Classroom";
-        var link = win.document.createElement('link');
-        link.rel = 'icon';
-        link.href = 'https://ssl.gstatic.com';
-        win.document.head.appendChild(link);
-    }
-<script>
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            search();
+        }
+    });
+
     async function search() {
-        const input = document.getElementById('search-input').value;
-        const frame = document.getElementById('game-frame');
+        const input = searchInput.value.trim();
+        if (!input) return;
+
         let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
         
         if ('serviceWorker' in navigator) {
             try {
                 await navigator.serviceWorker.register('/sw.js');
-                frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                document.getElementById('window').style.display = 'flex';
-            } catch (e) {
-                frame.src = url;
-                document.getElementById('window').style.display = 'flex';
+                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                gameFrame.src = "/uv/service/" + encoded;
+                gameWindow.style.display = 'flex';
+            } catch (err) {
+                gameFrame.src = url;
+                gameWindow.style.display = 'flex';
             }
         }
     }
 
     function launchCloaking() {
-        var win = window.open();
-        var url = window.location.href;
-        var iframe = win.document.createElement('iframe');
+        const win = window.open();
+        const url = window.location.href;
+        const iframe = win.document.createElement('iframe');
         iframe.style.width = "100vw";
         iframe.style.height = "100vh";
         iframe.style.border = "none";
@@ -125,7 +95,7 @@
         win.document.body.style.margin = "0";
         win.document.body.appendChild(iframe);
         win.document.title = "Google Classroom";
-        var link = win.document.createElement('link');
+        const link = win.document.createElement('link');
         link.rel = 'icon';
         link.href = 'https://ssl.gstatic.com';
         win.document.head.appendChild(link);
