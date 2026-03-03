@@ -2,7 +2,8 @@
   "version": 2,
   "rewrites": [
     { "source": "/uv/service/(.*)", "destination": "/api/index.js" },
-    { "source": "/uv/(.*)", "destination": "/uv/$1" },
+    { "source": "/uv/(.*)", "destination": "/lib/$1" },
+    { "source": "/lib/(.*)", "destination": "/lib/$1" },
     { "source": "/(.*)", "destination": "/public/index.html" }
   ]
 }
