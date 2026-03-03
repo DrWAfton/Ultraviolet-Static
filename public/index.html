@@ -15,17 +15,14 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
         
-        /* THE PERFECT CLOAK - USES A BACKUP COLOR SO IT'S NEVER BLACK */
+        /* THE PERFECT 1:1 CLOAK - USES YOUR NEW DIRECT LINK */
         #ixl-cloak {
             height: 100vh; width: 100vw; 
-            background-color: #78d6ad; /* IXL Light Green */
-            background-image: url('https://i.imgur.com');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            position: absolute; top: 0; left: 0; z-index: 5000;
+            background: #78d6ad url('https://i.imgur.com/ryuXoMX.png') no-repeat center center;
+            background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000;
         }
-        #unlock-trigger { position: absolute; top: 0; left: 0; width: 180px; height: 80px; cursor: default; z-index: 6000; }
+        /* SECRET ENTRANCE: THE TOP LEFT LOGO AREA */
+        #unlock-trigger { position: absolute; top: 0; left: 0; width: 200px; height: 100px; cursor: default; z-index: 6000; }
 
         /* THE SECRET HUB */
         #desktop { height: 100vh; width: 100vw; position: relative; background: #0f172a; display: none; z-index: 10; }
@@ -33,15 +30,19 @@
         #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; align-items: center; }
         #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; color: black; }
         iframe { border: none; flex-grow: 1; width: 100%; height: 100%; }
+        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
         .panic-btn { background: #ff5f56; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<!-- THIS IS THE CLOAK (YOUR PHOTO) -->
 <div id="ixl-cloak">
+    <!-- DOUBLE-CLICK the 'IXL Learning' logo in your photo to unlock -->
     <div id="unlock-trigger" ondblclick="unlock()"></div>
 </div>
 
+<!-- THIS IS THE SECRET HUB -->
 <div id="desktop">
     <div style="color:white; padding:20px; cursor:pointer;" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
@@ -52,6 +53,9 @@
             <button class="panic-btn" onclick="lockScreen()">PANIC (IXL)</button>
         </div>
         <iframe id="game-frame"></iframe>
+    </div>
+    <div id="taskbar">
+        <button onclick="lockScreen()" style="background:#006144; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">🔒 Back to IXL</button>
     </div>
 </div>
 
@@ -70,7 +74,7 @@
         const input = document.getElementById('search-input').value.trim();
         const frame = document.getElementById('game-frame');
         if (!input) return;
-        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
         
         if ('serviceWorker' in navigator) {
             await navigator.serviceWorker.register('/sw.js');
@@ -80,5 +84,6 @@
         }
     }
 </script>
+
 </body>
 </html>
