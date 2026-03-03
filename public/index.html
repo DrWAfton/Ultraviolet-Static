@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IXL | Math Practice</title>
+    <title>IXL | Recommendations</title>
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         window.__uv$config = {
@@ -13,63 +13,75 @@
         };
     </script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #1a1a1a; color: white; }
-        #desktop { height: 100vh; width: 100vw; position: relative; background: linear-gradient(45deg, #0f172a, #334155); }
-        .icon { width: 100px; text-align: center; cursor: pointer; padding: 20px; float: left; }
-        #window { width: 90%; height: 85%; background: white; position: absolute; top: 5%; left: 5%; border-radius: 10px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px black; z-index: 10; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; }
+        /* THE SECRET OS - HIDDEN BY DEFAULT */
+        #desktop { height: 100vh; width: 100vw; position: relative; background: linear-gradient(45deg, #0f172a, #334155); display: none; z-index: 10; }
+        .icon { width: 100px; text-align: center; cursor: pointer; padding: 20px; float: left; color: white; }
+        #window { width: 95%; height: 85%; background: white; position: absolute; top: 2%; left: 2.5%; border-radius: 12px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 100; }
         #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; align-items: center; }
-        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; color: black; }
-        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; background: white; }
-        .btn { cursor: pointer; border: none; padding: 5px 15px; border-radius: 5px; background: #ff5f56; color: white; font-weight: bold; }
-        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; z-index: 5000; }
-        .start-btn { background: #006144; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .stealth-btn { background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px; }
-        #ixl-menu { display: none; position: absolute; bottom: 60px; left: 20px; width: 300px; background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9000; overflow: hidden; border: 1px solid #ccc; color: black; }
+        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
+        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; }
+        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
+        
+        /* THE IXL CLOAK - THE FIRST THING YOU SEE */
+        #ixl-cloak {
+            height: 100vh; width: 100vw; background: url('https://i.imgur.com') no-repeat center center;
+            background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000; cursor: default;
+        }
+        /* THE HIDDEN TRIGGERS */
+        #ixl-header { position: absolute; top: 0; width: 100%; height: 80px; cursor: pointer; }
+        .panic-btn { background: #ff5f56; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<!-- 1. THE IXL SCREEN (FIRST VIEW) -->
+<div id="ixl-cloak" onclick="checkUnlock(event)">
+    <!-- Hidden hotkey: Double-click the IXL Logo in the top left to open Andy Hub -->
+    <div id="ixl-header" title="Double-click logo to unlock"></div>
+    <div style="position: absolute; bottom: 20px; left: 20px; color: rgba(255,255,255,0.1); font-size: 10px;">Secure Access Mode</div>
+</div>
+
+<!-- 2. THE SECRET ANDY HUB -->
 <div id="desktop">
     <div class="icon" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
     </div>
 
-    <div id="ixl-menu">
-        <div style="background:#006144; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
-            <img src="https://www.ixl.com" width="20"> IXL Learning
-        </div>
-        <div style="padding:10px;">
-            <div style="color:#666; font-size:12px; margin-bottom:10px; font-weight:bold;">RECOMMENDATIONS</div>
-            <button onclick="loadDirect('https://www.kbhgames.com')" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold; border-bottom:1px solid #eee;">Math: Geometry Practice</button>
-            <button onclick="launchCloaking()" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold;">Language Arts: Stealth Mode</button>
-        </div>
-        <div style="background:#f4f4f4; padding:10px; text-align:center; font-size:11px; color:#999;">© 2026 IXL Learning.</div>
-    </div>
-
     <div id="window">
         <div id="title-bar">
-            <input type="text" id="search-input" placeholder="Search IXL Skills..." onkeydown="if(event.key==='Enter') search()">
-            <button class="btn" onclick="document.getElementById('window').style.display='none'">X</button>
+            <input type="text" id="search-input" placeholder="Search Google or enter URL..." onkeydown="if(event.key==='Enter') search()">
+            <button class="panic-btn" onclick="lockScreen()">PANIC (IXL)</button>
+            <button class="panic-btn" style="background:#444" onclick="document.getElementById('window').style.display='none'">X</button>
         </div>
         <iframe id="game-frame"></iframe>
     </div>
 
     <div id="taskbar">
-        <button class="start-btn" onclick="toggleIXL()">IXL Learning</button>
-        <button class="stealth-btn" onclick="launchCloaking()">🚀 Stealth Mode</button>
+        <button onclick="lockScreen()" style="background:#006144; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">🔒 Back to IXL</button>
     </div>
 </div>
 
 <script>
-    function toggleIXL() {
-        const menu = document.getElementById('ixl-menu');
-        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    const cloak = document.getElementById('ixl-cloak');
+    const desktop = document.getElementById('desktop');
+    let lastClick = 0;
+
+    // THE SECRET UNLOCK: Double-click the top-left area to reveal Andy Hub
+    function checkUnlock(e) {
+        const date = new Date().getTime();
+        if (e.clientY < 80 && e.clientX < 150) { // Top left corner
+            if (date - lastClick < 400) {
+                cloak.style.display = 'none';
+                desktop.style.display = 'block';
+            }
+            lastClick = date;
+        }
     }
 
-    function loadDirect(url) {
-        toggleIXL();
-        document.getElementById('search-input').value = url;
-        search();
+    function lockScreen() {
+        cloak.style.display = 'block';
+        desktop.style.display = 'none';
     }
 
     async function search() {
@@ -85,21 +97,6 @@
             frame.src = "/uv/service/" + encoded;
             document.getElementById('window').style.display = 'flex';
         }
-    }
-
-    function launchCloaking() {
-        const win = window.open();
-        const url = window.location.href;
-        const iframe = win.document.createElement('iframe');
-        iframe.style.width = "100vw"; iframe.style.height = "100vh"; iframe.style.border = "none";
-        iframe.style.position = "fixed"; iframe.style.top = "0"; iframe.style.left = "0";
-        iframe.src = url;
-        win.document.body.style.margin = "0";
-        win.document.body.appendChild(iframe);
-        win.document.title = "IXL | Math Practice";
-        const link = win.document.createElement('link');
-        link.rel = 'icon'; link.href = 'https://www.ixl.com';
-        win.document.head.appendChild(link);
     }
 </script>
 
