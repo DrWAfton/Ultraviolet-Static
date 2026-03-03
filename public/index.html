@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Google Drive</title>
+    <title>IXL | Math Practice</title>
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         window.__uv$config = {
@@ -21,96 +21,87 @@
         #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; color: black; }
         iframe { border: none; flex-grow: 1; width: 100%; height: 100%; background: white; }
         .btn { cursor: pointer; border: none; padding: 5px 15px; border-radius: 5px; background: #ff5f56; color: white; font-weight: bold; }
-        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
-        .start-btn { background: #ffde00; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; z-index: 5000; }
+        .start-btn { background: #006144; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .stealth-btn { background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        #ixl-menu { display: none; position: absolute; bottom: 60px; left: 20px; width: 300px; background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9000; overflow: hidden; border: 1px solid #ccc; color: black; }
     </style>
 </head>
 <body>
+
 <div id="desktop">
-       <div id="ixl-menu" style="display:none; position:absolute; bottom:60px; left:20px; width:300px; background:white; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:1000; overflow:hidden; border:1px solid #ccc; font-family:sans-serif;">
-        <div style="background:#006144; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;"><img src="https://www.ixl.com" width="20"> IXL Learning</div>
-        <div style="padding:10px;">
-            <div style="color:#666; font-size:12px; margin-bottom:10px; font-weight:bold;">RECOMMENDATIONS</div>
-            <button onclick="loadDirect('https://www.kbhgames.com')" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold; border-bottom:1px solid #eee;">Math: Geometry Practice</button>
-            <button onclick="launchCloaking()" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold;">Ghost Mode (Stealth)</button>
-        </div>
-        <div style="background:#f4f4f4; padding:10px; text-align:center; font-size:11px; color:#999;">© 2026 IXL Learning.</div>
-    </div>
- 
     <div class="icon" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
     </div>
+
+    <div id="ixl-menu">
+        <div style="background:#006144; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;">
+            <img src="https://www.ixl.com" width="20"> IXL Learning
+        </div>
+        <div style="padding:10px;">
+            <div style="color:#666; font-size:12px; margin-bottom:10px; font-weight:bold;">RECOMMENDATIONS</div>
+            <button onclick="loadDirect('https://www.kbhgames.com')" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold; border-bottom:1px solid #eee;">Math: Geometry Practice</button>
+            <button onclick="launchCloaking()" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold;">Language Arts: Stealth Mode</button>
+        </div>
+        <div style="background:#f4f4f4; padding:10px; text-align:center; font-size:11px; color:#999;">© 2026 IXL Learning.</div>
+    </div>
+
     <div id="window">
         <div id="title-bar">
-            <input type="text" id="search-input" placeholder="Search Google or enter URL...">
+            <input type="text" id="search-input" placeholder="Search IXL Skills..." onkeydown="if(event.key==='Enter') search()">
             <button class="btn" onclick="document.getElementById('window').style.display='none'">X</button>
         </div>
         <iframe id="game-frame"></iframe>
     </div>
+
     <div id="taskbar">
-        <button class="start-btn">Yo, it's Andy</button>
+        <button class="start-btn" onclick="toggleIXL()">IXL Learning</button>
         <button class="stealth-btn" onclick="launchCloaking()">🚀 Stealth Mode</button>
     </div>
 </div>
-<script>
-    const searchInput = document.getElementById('search-input');
-    const gameFrame = document.getElementById('game-frame');
-    const gameWindow = document.getElementById('window');
 
-    searchInput.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter') {
-            const input = searchInput.value.trim();
-            if (!input) return;
-            let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-            
-            if ('serviceWorker' in navigator) {
-                try {
-                    await navigator.serviceWorker.register('/sw.js');
-                    const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                    gameFrame.src = "/uv/service/" + encoded;
-                    gameWindow.style.display = 'flex';
-                } catch (err) {
-                    gameFrame.src = url;
-                    gameWindow.style.display = 'flex';
-                }
-            }div id="desktop"
+<script>
+    function toggleIXL() {
+        const menu = document.getElementById('ixl-menu');
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function loadDirect(url) {
+        toggleIXL();
+        document.getElementById('search-input').value = url;
+        search();
+    }
+
+    async function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const frame = document.getElementById('game-frame');
+        if (!input) return;
+
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
+        
+        if ('serviceWorker' in navigator) {
+            await navigator.serviceWorker.register('/sw.js');
+            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+            frame.src = "/uv/service/" + encoded;
+            document.getElementById('window').style.display = 'flex';
         }
-    });
+    }
 
     function launchCloaking() {
-        var win = window.open();
-        var url = window.location.href;
-        var iframe = win.document.createElement('iframe');
-        iframe.style.width = "100vw"; iframe.style.height = "100vh";
-        iframe.style.border = "none"; iframe.style.position = "fixed";
-        iframe.style.top = "0"; iframe.style.left = "0";
+        const win = window.open();
+        const url = window.location.href;
+        const iframe = win.document.createElement('iframe');
+        iframe.style.width = "100vw"; iframe.style.height = "100vh"; iframe.style.border = "none";
+        iframe.style.position = "fixed"; iframe.style.top = "0"; iframe.style.left = "0";
         iframe.src = url;
         win.document.body.style.margin = "0";
         win.document.body.appendChild(iframe);
-        win.document.title = "Google Classroom";
-        var link = win.document.createElement('link');
-        link.rel = 'icon'; link.href = 'https://ssl.gstatic.com';
+        win.document.title = "IXL | Math Practice";
+        const link = win.document.createElement('link');
+        link.rel = 'icon'; link.href = 'https://www.ixl.com';
         win.document.head.appendChild(link);
     }
 </script>
-    <script>
-        function toggleIXL() {
-            const menu = document.getElementById('ixl-menu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        }
-
-        function loadDirect(url) {
-            toggleIXL();
-            const input = document.getElementById('search-input');
-            input.value = url;
-            search();
-        }
-    </script>
 
 </body>
 </html>
