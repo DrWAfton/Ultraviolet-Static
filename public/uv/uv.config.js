@@ -1,8 +1,8 @@
 self.__uv$config = {
     prefix: '/uv/service/',
-    bare: 'https://uv.student-t.cc', 
-    encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
-    decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+')),
+    bare: 'https://uv.holyubofficial.net', 
+    encodeUrl: Ultraviolet.codec.xor.encode,
+    decodeUrl: Ultraviolet.codec.xor.decode,
     handler: '/uv/uv.handler.js',
     bundle: '/uv/uv.bundle.js',
     config: '/uv/uv.config.js',
