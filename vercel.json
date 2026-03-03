@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/uv/service/(.*)",
-      "destination": "/uv/index.html"
+      "destination": "/lib/index.html"
     },
     {
       "source": "/uv/(.*)",
-      "destination": "/uv/$1"
+      "destination": "/lib/$1"
     },
     {
       "source": "/(.*)",
