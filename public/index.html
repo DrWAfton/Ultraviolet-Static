@@ -93,6 +93,43 @@
         link.href = 'https://ssl.gstatic.com';
         win.document.head.appendChild(link);
     }
+<script>
+    async function search() {
+        const input = document.getElementById('search-input').value;
+        const frame = document.getElementById('game-frame');
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
+        
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('/sw.js');
+                frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                document.getElementById('window').style.display = 'flex';
+            } catch (e) {
+                frame.src = url;
+                document.getElementById('window').style.display = 'flex';
+            }
+        }
+    }
+
+    function launchCloaking() {
+        var win = window.open();
+        var url = window.location.href;
+        var iframe = win.document.createElement('iframe');
+        iframe.style.width = "100vw";
+        iframe.style.height = "100vh";
+        iframe.style.border = "none";
+        iframe.style.position = "fixed";
+        iframe.style.top = "0";
+        iframe.style.left = "0";
+        iframe.src = url;
+        win.document.body.style.margin = "0";
+        win.document.body.appendChild(iframe);
+        win.document.title = "Google Classroom";
+        var link = win.document.createElement('link');
+        link.rel = 'icon';
+        link.href = 'https://ssl.gstatic.com';
+        win.document.head.appendChild(link);
+    }
 </script>
 
 </body>
