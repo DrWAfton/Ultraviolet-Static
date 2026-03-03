@@ -37,8 +37,11 @@
 <body>
 
 <div id="ixl-cloak">
-    <!-- DOUBLE-CLICK the 'IXL Learning' logo in your NEW photo to unlock -->
+    <!-- 1. DOUBLE-CLICK LOGO TO UNLOCK HUB -->
     <div id="unlock-trigger" ondblclick="unlock()"></div>
+    
+    <!-- 2. CLICK ANYWHERE ELSE TO OPEN REAL IXL -->
+    <div onclick="window.open('https://www.ixl.com', '_blank')" style="position: absolute; top: 100px; left: 0; width: 100%; height: 80%; cursor: default; z-index: 5500;"></div>
 </div>
 
 <div id="desktop">
