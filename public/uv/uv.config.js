@@ -1,10 +1,10 @@
 self.__uv$config = {
     prefix: '/uv/service/',
-    bare: '/bare/',
+    bare: 'https://bare.benroberts.dev', 
     encodeUrl: Ultraviolet.codec.xor.encode,
     decodeUrl: Ultraviolet.codec.xor.decode,
-    handler: '/lib/uv.handler.js',
-    bundle: '/lib/uv.bundle.js',
-    config: '/lib/uv.config.js',
-    sw: '/lib/uv.sw.js',
+    handler: '/uv/uv.handler.js',
+    bundle: '/uv/uv.bundle.js',
+    config: '/uv/uv.config.js',
+    sw: '/uv/uv.sw.js',
 };
