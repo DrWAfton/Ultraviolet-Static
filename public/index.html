@@ -1,122 +1,96 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
-    <title>Ultraviolet | Sophisticated Web Proxy</title>
-    <meta
-      name="description"
-      content="Ultraviolet is a highly sophisticated proxy used for evading internet censorship or accessing websites in a controlled sandbox using the power of service-workers. Unblock sites today!"
-    />
-    <meta
-      name="keywords"
-      content="proxy, web proxy, ultraviolet, service workers, unblock websites, unblock chromebook, free web proxy, proxy list, proxy sites, un block chromebook, online proxy, proxy server, proxysite, proxy youtube, bypass securly, bypass iboss, bypass lightspeed filter, holy unblocker, chromebooks, titanium network, unblock youtube, youtube proxy, unblocked youtube, youtube unblocked"
-    />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: dark)"
-      content="#434c5e"
-    />
-    <meta name="googlebot" content="index, follow, snippet" />
-    <link rel="shortcut icon" content="favicon.ico" />
-    <link rel="stylesheet" href="index.css" />
-    <script src="baremux/index.js" defer></script>
-    <script src="epoxy/index.js" defer></script>
-    <script src="uv/uv.bundle.js" defer></script>
-    <script src="uv/uv.config.js" defer></script>
-    <script src="register-sw.js" defer></script>
-    <script src="search.js" defer></script>
-    <script src="index.js" defer></script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is Ultraviolet (Web Proxy)?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Highly sophisticated proxy used for evading internet censorship or accessing websites in a controlled sandbox using the power of service-workers and more!"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I unblock sites using Ultraviolet?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Simply head to an official site featuring Ultraviolet such as Holy Unblocker or Incognito! You can also self-host Ultraviolet on your own web server for maximum privacy."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What if Ultraviolet is blocked or not working?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Join the Titanium Network Discord at discord.gg/unblock!"
-            }
-          }
-        ]
-      }
-    </script>
-  </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- THIS IS THE NAME ON THE BROWSER TAB -->
+    <title>andy-made-it-allbyhimself</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+        
+        #desktop {
+            /* CHANGE THE LINK BELOW TO CHANGE YOUR WALLPAPER */
+            background: url('https://images.unsplash.com') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
 
-  <body>
-    <div
-      title="Ultraviolet Logo"
-      class="flex-center logo-wrapper header-center"
-    >
-      <img class="logo" src="uv.png" alt="Ultraviolet" />
-      <h1>Ultraviolet | TN</h1>
-    </div>
-    <div class="flex-center desc left-margin">
-      <p>
-        Ultraviolet is highly sophisticated proxy used for evading internet
-        censorship.
-      </p>
+        .icon {
+            width: 90px; text-align: center; color: white; cursor: pointer;
+            padding: 15px; margin: 10px; border-radius: 12px; transition: 0.3s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .icon:hover { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+        .icon img { width: 55px; display: block; margin: 0 auto 8px; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); }
+
+        #window {
+            width: 700px; height: 450px; background: white;
+            position: absolute; top: 15%; left: 20%;
+            border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            display: none; flex-direction: column; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        #title-bar {
+            background: #222; color: white; padding: 12px; display: flex;
+            justify-content: space-between; cursor: move;
+        }
+
+        #close-btn { 
+            background: #ff5f56; width: 15px; height: 15px; 
+            border-radius: 50%; color: transparent; cursor: pointer; 
+        }
+        #close-btn:hover { color: black; text-align: center; line-height: 15px; font-size: 10px; content: 'x'; }
+
+        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; }
+
+        #taskbar {
+            position: absolute; bottom: 0; width: 100%;
+            height: 55px; background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .start-btn {
+            background: rgba(255,255,255,0.1); color: white; border: none;
+            padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;
+        }
+        .start-btn:hover { background: rgba(255,255,255,0.3); }
+    </style>
+</head>
+<body>
+
+<div id="desktop">
+    <!-- ICON 1 -->
+    <div class="icon" onclick="openWindow()">
+        <img src="https://cdn-icons-png.flaticon.com" alt="games">
+        <span>Andy's Games</span>
     </div>
 
-    <form id="uv-form" class="flex-center">
-      <input
-        id="uv-search-engine"
-        value="https://www.google.com/search?q=%s"
-        type="hidden"
-      />
-      <input id="uv-address" type="text" placeholder="Search the web freely" />
-    </form>
-    <div class="desc left-margin">
-      <p id="uv-error"></p>
-      <pre id="uv-error-code"></pre>
+    <!-- MAIN WINDOW -->
+    <div id="window">
+        <div id="title-bar">
+            <span>Andy's Secret Stuff</span>
+            <div id="close-btn" onclick="closeWindow()">x</div>
+        </div>
+        <!-- This opens a free game site inside your window -->
+        <iframe src="https://www.google.com"></iframe>
     </div>
-    <footer>
-      <div>
-        <a
-          title="The TitaniumNetwork GitHub organization"
-          href="https://github.com/titaniumnetwork-dev"
-          >TitaniumNetwork</a
-        >
-        <a title="The TitaniumNetwork Discord" href="https://discord.gg/unblock"
-          >Discord</a
-        >
-        <a
-          title="The TompHTTP GitHub organization"
-          href="https://github.com/tomphttp"
-          >TompHTTP</a
-        >
-        <a
-          title="The official deployment repository for Ultraviolet"
-          href="https://github.com/titaniumnetwork-dev/Ultraviolet-App"
-          >GitHub</a
-        >
-        <a title="License information" href="credits.html">Credits</a>
-      </div>
-      <div>
-        <span>Ultraviolet &copy; TN 2023</span>
-      </div>
-    </footer>
-    <iframe style="display: none;" id="uv-frame"></iframe>
-  </body>
+
+    <!-- TASKBAR -->
+    <div id="taskbar">
+        <button class="start-btn">Yo, it's Andy</button>
+    </div>
+</div>
+
+<script>
+    function openWindow() { document.getElementById('window').style.display = 'flex'; }
+    function closeWindow() { document.getElementById('window').style.display = 'none'; }
+</script>
+
+</body>
 </html>
+
