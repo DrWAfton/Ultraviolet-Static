@@ -28,6 +28,16 @@
 </head>
 <body>
 <div id="desktop">
+       <div id="ixl-menu" style="display:none; position:absolute; bottom:60px; left:20px; width:300px; background:white; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:1000; overflow:hidden; border:1px solid #ccc; font-family:sans-serif;">
+        <div style="background:#006144; color:white; padding:15px; font-weight:bold; display:flex; align-items:center; gap:10px;"><img src="https://www.ixl.com" width="20"> IXL Learning</div>
+        <div style="padding:10px;">
+            <div style="color:#666; font-size:12px; margin-bottom:10px; font-weight:bold;">RECOMMENDATIONS</div>
+            <button onclick="loadDirect('https://www.kbhgames.com')" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold; border-bottom:1px solid #eee;">Math: Geometry Practice</button>
+            <button onclick="launchCloaking()" style="width:100%; text-align:left; padding:10px; border:none; background:none; cursor:pointer; color:#0073bb; font-weight:bold;">Ghost Mode (Stealth)</button>
+        </div>
+        <div style="background:#f4f4f4; padding:10px; text-align:center; font-size:11px; color:#999;">© 2026 IXL Learning.</div>
+    </div>
+ 
     <div class="icon" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
     </div>
@@ -64,7 +74,7 @@
                     gameFrame.src = url;
                     gameWindow.style.display = 'flex';
                 }
-            }
+            }div id="desktop"
         }
     });
 
@@ -84,5 +94,23 @@
         win.document.head.appendChild(link);
     }
 </script>
+    <script>
+        function toggleIXL() {
+            const menu = document.getElementById('ixl-menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        function loadDirect(url) {
+            toggleIXL();
+            const input = document.getElementById('search-input');
+            input.value = url;
+            search();
+        }
+    </script>
+
 </body>
 </html>
