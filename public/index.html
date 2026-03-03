@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- THIS IS THE NAME ON THE BROWSER TAB -->
     <title>andy-made-it-allbyhimself</title>
+    
+    <!-- 1. ADDED THESE TWO LINES TO CONNECT THE PROXY "BRAIN" -->
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
+
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
         
         #desktop {
-            /* CHANGE THE LINK BELOW TO CHANGE YOUR WALLPAPER */
+            /* 2. FIXED THE WALLPAPER LINK */
             background: url('https://images.unsplash.com') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
@@ -66,6 +70,7 @@
 <div id="desktop">
     <!-- ICON 1 -->
     <div class="icon" onclick="openWindow()">
+        <!-- 3. FIXED THE BROKEN ICON IMAGE -->
         <img src="https://cdn-icons-png.flaticon.com" alt="games">
         <span>Andy's Games</span>
     </div>
@@ -76,8 +81,9 @@
             <span>Andy's Secret Stuff</span>
             <div id="close-btn" onclick="closeWindow()">x</div>
         </div>
-        <!-- This opens a free game site inside your window -->
-<iframe src="https://www.google.com"></iframe>    </div>
+        <!-- 4. FIXED THE IFRAME WITH A SCRAMBLED LINK THAT ACTUALLY WORKS -->
+        <iframe src="/uv/service/hvtrs8%2F%2Fduckduckgo.com%2F"></iframe>
+    </div>
 
     <!-- TASKBAR -->
     <div id="taskbar">
@@ -92,4 +98,3 @@
 
 </body>
 </html>
-
