@@ -119,11 +119,11 @@
     function openWindow() { win.style.display = 'flex'; showMenu(); }
     function closeWindow() { win.style.display = 'none'; frame.src = ""; }
     
-    function loadGame(url) {
-        menu.style.display = 'none';
+        function loadGame(url) {
+        document.getElementById('game-menu').style.display = 'none';
+        const frame = document.getElementById('game-frame');
         frame.style.display = 'block';
-        // This uses your proxy structure to unblock the mod sites!
-        frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+        frame.src = url; 
     }
 
     function showMenu() {
