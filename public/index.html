@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>andy-made-it-allbyhimself</title>
+    <title>Google Drive</title>
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         window.__uv$config = {
@@ -15,69 +15,77 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #1a1a1a; color: white; }
         #desktop { height: 100vh; width: 100vw; position: relative; background: linear-gradient(45deg, #0f172a, #334155); }
-        .icon { width: 100px; text-align: center; cursor: pointer; padding: 20px; }
-        #window { width: 90%; height: 80%; background: white; position: absolute; top: 5%; left: 5%; border-radius: 10px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px black; }
-        #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; }
-        #search-input { flex-grow: 1; padding: 5px; border-radius: 5px; border: none; }
+        .icon { width: 100px; text-align: center; cursor: pointer; padding: 20px; float: left; }
+        #window { width: 90%; height: 85%; background: white; position: absolute; top: 5%; left: 5%; border-radius: 10px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px black; z-index: 10; }
+        #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; align-items: center; }
+        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
         iframe { border: none; flex-grow: 1; width: 100%; height: 100%; background: white; }
-        .btn { cursor: pointer; border: none; padding: 5px 10px; border-radius: 3px; background: #ff5f56; color: white; }
+        .btn { cursor: pointer; border: none; padding: 5px 15px; border-radius: 5px; background: #ff5f56; color: white; font-weight: bold; }
+        #taskbar { position: absolute; bottom: 0; width: 100%; height: 50px; background: rgba(0,0,0,0.8); display: flex; align-items: center; padding: 0 20px; box-sizing: border-box; }
+        .start-btn { background: #ffde00; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .stealth-btn { background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px; }
     </style>
 </head>
 <body>
-    <div id="desktop">
-        <div class="icon" onclick="document.getElementById('window').style.display='flex'">
-            <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
-        </div>
-        <div id="window">
-            <div id="title-bar">
-                <input type="text" id="search-input" placeholder="Search..." onkeydown="if(event.key==='Enter') search()">
-                <button class="btn" onclick="document.getElementById('window').style.display='none'">X</button>
-            </div>
-            <iframe id="game-frame"></iframe>
-        </div>
-    </div>
-    <script>
-        async function search() {
-            const input = document.getElementById('search-input').value;
-            const frame = document.getElementById('game-frame');
-            let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
-            
-            if ('serviceWorker' in navigator) {
-                try {
-                    await navigator.serviceWorker.register('/sw.js');
-                    frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                } catch (e) {
-                    frame.src = url;
-                }
-            }
-        }
-    </script>
-</body>
-</html>
-<button onclick="launchCloaking()" style="padding:10px; background:#ffde00; border-radius:5px; cursor:pointer;">
 
-</button>
+<div id="desktop">
+    <div class="icon" onclick="document.getElementById('window').style.display='flex'">
+        <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
+    </div>
+
+    <div id="window">
+        <div id="title-bar">
+            <input type="text" id="search-input" placeholder="Search Google or enter URL..." onkeydown="if(event.key==='Enter') search()">
+            <button class="btn" onclick="document.getElementById('window').style.display='none'">X</button>
+        </div>
+        <iframe id="game-frame"></iframe>
+    </div>
+
+    <div id="taskbar">
+        <button class="start-btn">Yo, it's Andy</button>
+        <button class="stealth-btn" onclick="launchCloaking()">🚀 Stealth Mode</button>
+    </div>
+</div>
 
 <script>
-function launchCloaking() {
-    const win = window.open();
-    const url = window.location.href;
-    const iframe = win.document.createElement('iframe');
+    async function search() {
+        const input = document.getElementById('search-input').value;
+        const frame = document.getElementById('game-frame');
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + input;
+        
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('/sw.js');
+                frame.src = "/uv/service/" + btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+            } catch (e) {
+                frame.src = url;
+            }
+        }
+    }
 
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.border = "none";
-    iframe.src = url;
+    function launchCloaking() {
+        var win = window.open();
+        var url = window.location.href;
+        var iframe = win.document.createElement('iframe');
 
-    win.document.body.style.margin = "0";
-    win.document.body.style.padding = "0";
-    win.document.body.appendChild(iframe);
+        iframe.style.width = "100vw";
+        iframe.style.height = "100vh";
+        iframe.style.border = "none";
+        iframe.style.position = "fixed";
+        iframe.style.top = "0";
+        iframe.style.left = "0";
+        iframe.src = url;
 
-    
-    win.document.title = "Google Classroom";
-    const link = win.document.createElement('link');
-    link.rel = 'icon';
-    link.href = 'https://ssl.gstatic.com';
-    win.document.head.appendChild(link);
-}
+        win.document.body.style.margin = "0";
+        win.document.body.appendChild(iframe);
+        
+        win.document.title = "Google Classroom";
+        var link = win.document.createElement('link');
+        link.rel = 'icon';
+        link.href = 'https://ssl.gstatic.com';
+        win.document.head.appendChild(link);
+    }
 </script>
+
+</body>
+</html>
