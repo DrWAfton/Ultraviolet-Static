@@ -69,5 +69,52 @@
         }
     }
 </script>
+    <script>
+    // THE PANIC BRAIN
+    function lockScreen() {
+        const cloak = document.getElementById('ixl-cloak');
+        const desktop = document.getElementById('desktop');
+        
+        if (cloak && desktop) {
+            cloak.style.display = 'block';
+            desktop.style.display = 'none';
+            // This makes the tab title look like schoolwork instantly
+            document.title = "IXL | Recommendations";
+        }
+    }
+
+    // THE UNLOCK BRAIN
+    function unlock() {
+        const cloak = document.getElementById('ixl-cloak');
+        const desktop = document.getElementById('desktop');
+        
+        if (cloak && desktop) {
+            cloak.style.display = 'none';
+            desktop.style.display = 'block';
+        }
+    }
+
+    // THE SEARCH BRAIN
+    async function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const frame = document.getElementById('game-frame');
+        if (!input) return;
+
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+        
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('/sw.js');
+                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                frame.src = "/uv/service/" + encoded;
+                document.getElementById('window').style.display = 'flex';
+            } catch (e) {
+                frame.src = url;
+                document.getElementById('window').style.display = 'flex';
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
