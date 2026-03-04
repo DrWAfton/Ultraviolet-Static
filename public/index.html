@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- THE TAB NAME -->
     <title>IXL | Recommendations</title>
+    <!-- THE TAB LOGO -->
     <link rel="icon" href="https://i.imgur.com" type="image/png">
     
     <script src="https://cdn.jsdelivr.net"></script>
@@ -17,14 +19,18 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
         
-        /* THE NEW ENGLISH CLOAK - 1:1 MATCH */
+        /* THE PERFECT 1:1 CLOAK */
         #ixl-cloak {
             height: 100vh; width: 100vw; 
-            background: #78d6ad url('https://i.imgur.com/v7yPAMM.png') no-repeat center center;
+            background: #78d6ad url('https://i.imgur.com') no-repeat center center;
             background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000;
         }
-        /* SECRET ENTRANCE: TOP LEFT LOGO AREA (ADJUSTED FOR NEW PHOTO) */
+        
+        /* 1. DOUBLE-CLICK LOGO TO UNLOCK (TOP LEFT) */
         #unlock-trigger { position: absolute; top: 0; left: 0; width: 220px; height: 90px; cursor: default; z-index: 6000; }
+
+        /* 2. CLICK ANYWHERE ELSE TO OPEN REAL IXL */
+        #real-ixl-trigger { position: absolute; top: 90px; left: 0; width: 100%; height: 90%; cursor: default; z-index: 5500; }
 
         /* THE SECRET HUB */
         #desktop { height: 100vh; width: 100vw; position: relative; background: #0f172a; display: none; z-index: 10; }
@@ -39,11 +45,8 @@
 <body>
 
 <div id="ixl-cloak">
-    <!-- 1. DOUBLE-CLICK LOGO TO UNLOCK HUB -->
     <div id="unlock-trigger" ondblclick="unlock()"></div>
-    
-    <!-- 2. CLICK ANYWHERE ELSE TO OPEN REAL IXL -->
-    <div onclick="window.open('https://www.ixl.com/dashboard', '_blank')" style="position: absolute; top: 100px; left: 0; width: 100%; height: 80%; cursor: default; z-index: 5500;"></div>
+    <div id="real-ixl-trigger" onclick="window.open('https://www.ixl.com', '_blank')"></div>
 </div>
 
 <div id="desktop">
