@@ -14,10 +14,10 @@
         };
     </script>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #78d6ad; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
         #ixl-cloak {
             height: 100vh; width: 100vw; 
-            background: #78d6ad url('https://i.imgur.com') no-repeat center center;
+            background: #78d6ad url('https://i.imgur.com/9XHwdoo.png') no-repeat center center;
             background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000;
         }
         #unlock-trigger { position: absolute; top: 0; left: 0; width: 220px; height: 90px; cursor: default; z-index: 6000; }
@@ -69,52 +69,5 @@
         }
     }
 </script>
-    <script>
-    // THE PANIC BRAIN
-    function lockScreen() {
-        const cloak = document.getElementById('ixl-cloak');
-        const desktop = document.getElementById('desktop');
-        
-        if (cloak && desktop) {
-            cloak.style.display = 'block';
-            desktop.style.display = 'none';
-            // This makes the tab title look like schoolwork instantly
-            document.title = "IXL | Recommendations";
-        }
-    }
-
-    // THE UNLOCK BRAIN
-    function unlock() {
-        const cloak = document.getElementById('ixl-cloak');
-        const desktop = document.getElementById('desktop');
-        
-        if (cloak && desktop) {
-            cloak.style.display = 'none';
-            desktop.style.display = 'block';
-        }
-    }
-
-    // THE SEARCH BRAIN
-    async function search() {
-        const input = document.getElementById('search-input').value.trim();
-        const frame = document.getElementById('game-frame');
-        if (!input) return;
-
-        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-        
-        if ('serviceWorker' in navigator) {
-            try {
-                await navigator.serviceWorker.register('/sw.js');
-                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                frame.src = "/uv/service/" + encoded;
-                document.getElementById('window').style.display = 'flex';
-            } catch (e) {
-                frame.src = url;
-                document.getElementById('window').style.display = 'flex';
-            }
-        }
-    }
-</script>
-
 </body>
 </html>
