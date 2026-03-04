@@ -4,35 +4,54 @@
     <meta charset="UTF-8">
     <title>IXL | Recommendations</title>
     <link rel="icon" href="https://i.imgur.com" type="image/png">
-    <script src="https://cdn.jsdelivr.net"></script>
-           async function search() {
-            const input = document.getElementById('search-input').value.trim();
-            const frame = document.getElementById('game-frame');
-            if (!input) return;
+  <script>
+    /* THE ENGINE: This unblocks the internet */
+    window.__uv$config = {
+        prefix: '/uv/service/',
+        bare: 'https://uv.holyubofficial.net', 
+        encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
+        decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
+    };
 
-            // URL Formatter
-            let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-            
-            if ('serviceWorker' in navigator) {
-                try {
-                    // FORCE REGISTER: This tells the proxy to wake up NOW
-                    const registration = await navigator.serviceWorker.register('/sw.js', {
-                        scope: '/uv/service/'
-                    });
-                    
-                    // THE SCRAMBLER
-                    const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                    
-                    // LOAD AND SHOW
-                    frame.src = "/uv/service/" + encoded;
-                    document.getElementById('window').style.display = 'flex';
-                } catch (err) {
-                    console.error("SW failed:", err);
-                    frame.src = url; // Fallback
-                    document.getElementById('window').style.display = 'flex';
-                }
+    /* 1. THE UNLOCKER (Double-click logo to enter) */
+    function unlock() { 
+        document.getElementById('ixl-cloak').style.display = 'none'; 
+        document.getElementById('desktop').style.display = 'block'; 
+    }
+
+    /* 2. THE PANIC BUTTON (Go back to IXL photo) */
+    function lockScreen() { 
+        document.getElementById('ixl-cloak').style.display = 'block'; 
+        document.getElementById('desktop').style.display = 'none'; 
+    }
+
+    /* 3. THE SEARCH BRAIN (Fixed to wake up the proxy) */
+    async function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const frame = document.getElementById('game-frame');
+        if (!input) return;
+
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+        
+        if ('serviceWorker' in navigator) {
+            try {
+                /* Register the brain from the Main Lobby */
+                await navigator.serviceWorker.register('/sw.js');
+                
+                /* Scramble the URL to trick iBoss */
+                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                
+                /* Load the game and show the window */
+                frame.src = "/uv/service/" + encoded;
+                document.getElementById('window').style.display = 'flex';
+            } catch (err) {
+                frame.src = url;
+                document.getElementById('window').style.display = 'flex';
             }
         }
+    }
+</script>
+
 
         async function search() {
             const input = document.getElementById('search-input').value.trim();
