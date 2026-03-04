@@ -23,7 +23,7 @@
     
     if ('serviceWorker' in navigator) {
         try {
-            // FORCE ROOT REGISTRATION
+            // FORCE ROOT REGISTRATIO
             await navigator.serviceWorker.register('/sw.js', { scope: '/' });
             
             const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
