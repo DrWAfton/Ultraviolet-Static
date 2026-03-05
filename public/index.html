@@ -14,7 +14,7 @@
             decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
         };
 
-        async function search() {
+       async function search() {
     const input = document.getElementById('search-input').value.trim();
     const frame = document.getElementById('game-frame');
     if (!input) return;
@@ -23,15 +23,15 @@
     
     if ('serviceWorker' in navigator) {
         try {
-            // FORCE ROOT REGISTRATIO
-            await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+            // This forces the "Brain" to wake up and control the proxy folder
+            await navigator.serviceWorker.register('/sw.js', { scope: '/uv/service/' });
             
             const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
             frame.src = "/uv/service/" + encoded;
             document.getElementById('window').style.display = 'flex';
         } catch (err) {
-            console.error("Proxy Brain Error:", err);
-            frame.src = url; // Fail-safe
+            console.error("Proxy failed to start:", err);
+            frame.src = url; // Fallback to normal URL
             document.getElementById('window').style.display = 'flex';
         }
     }
