@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>IXL | Recommendations</title>
     <link rel="icon" href="https://i.imgur.com" type="image/png">
-    
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         window.__uv$config = {
@@ -14,40 +13,32 @@
             decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
         };
 
-       async function search() {
-    const input = document.getElementById('search-input').value.trim();
-    const frame = document.getElementById('game-frame');
-    if (!input) return;
-
-    let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-    
-    if ('serviceWorker' in navigator) {
-        try {
-            // This forces the "Brain" to wake up and control the proxy folder
-            await navigator.serviceWorker.register('/sw.js', { scope: '/uv/service/' });
-            
-            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-            frame.src = "/uv/service/" + encoded;
-            document.getElementById('window').style.display = 'flex';
-        } catch (err) {
-            console.error("Proxy failed to start:", err);
-            frame.src = url; // Fallback to normal URL
-            document.getElementById('window').style.display = 'flex';
+        async function search() {
+            const input = document.getElementById('search-input').value.trim();
+            const frame = document.getElementById('game-frame');
+            if (!input) return;
+            let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+            if ('serviceWorker' in navigator) {
+                await navigator.serviceWorker.register('/sw.js');
+                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                frame.src = "/uv/service/" + encoded;
+                document.getElementById('window').style.display = 'flex';
+            }
         }
-    }
-}
 
         function unlock() { document.getElementById('ixl-cloak').style.display = 'none'; document.getElementById('desktop').style.display = 'block'; }
         function lockScreen() { document.getElementById('ixl-cloak').style.display = 'block'; document.getElementById('desktop').style.display = 'none'; }
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'l') {
+                if (document.activeElement.id === 'search-input') return;
+                lockScreen();
+            }
+        });
     </script>
-
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
-        #ixl-cloak {
-            height: 100vh; width: 100vw; 
-            background: #78d6ad url('https://i.imgur.com/GuocbDn.jpeg') no-repeat center center;
-            background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000;
-        }
+        #ixl-cloak { height: 100vh; width: 100vw; background: #78d6ad url('https://i.imgur.com') no-repeat center center; background-size: cover; position: absolute; top: 0; left: 0; z-index: 5000; }
         #unlock-trigger { position: absolute; top: 0; left: 0; width: 220px; height: 90px; cursor: default; z-index: 6000; }
         #real-ixl-trigger { position: absolute; top: 90px; left: 0; width: 100%; height: 90%; cursor: default; z-index: 5500; }
         #desktop { height: 100vh; width: 100vw; position: relative; background: #0f172a; display: none; z-index: 10; }
@@ -59,17 +50,14 @@
     </style>
 </head>
 <body>
-
 <div id="ixl-cloak">
     <div id="unlock-trigger" ondblclick="unlock()"></div>
     <div id="real-ixl-trigger" onclick="window.open('https://www.ixl.com', '_blank')"></div>
 </div>
-
 <div id="desktop">
     <div style="color:white; padding:20px; cursor:pointer;" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
     </div>
-
     <div id="window">
         <div id="title-bar">
             <input type="text" id="search-input" placeholder="Search IXL..." onkeydown="if(event.key==='Enter') search()">
@@ -78,93 +66,5 @@
         <iframe id="game-frame"></iframe>
     </div>
 </div>
-
 </body>
-    <script>
-    /* 1. THE BRAIN: This unblocks the internet */
-    window.__uv$config = {
-        prefix: '/uv/service/',
-        bare: 'https://uv.holyubofficial.net', 
-        encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
-        decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
-    };
-
-    /* 2. THE UNLOCKER (Double-click logo to enter) */
-    function unlock() { 
-        document.getElementById('ixl-cloak').style.display = 'none'; 
-        document.getElementById('desktop').style.display = 'block'; 
-    }
-
-    /* 3. THE PANIC BUTTON (Go back to IXL photo) */
-    function lockScreen() { 
-        document.getElementById('ixl-cloak').style.display = 'block'; 
-        document.getElementById('desktop').style.display = 'none'; 
-    }
-
-    /* 4. THE SEARCH BRAIN (Fixed to wake up the proxy) */
-    async function search() {
-        const input = document.getElementById('search-input').value.trim();
-        const frame = document.getElementById('game-frame');
-        if (!input) return;
-        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-        if ('serviceWorker' in navigator) {
-            await navigator.serviceWorker.register('/sw.js');
-            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-            frame.src = "/uv/service/" + encoded;
-            document.getElementById('window').style.display = 'flex';
-        }
-    }
-
-    /* 5. THE 'L' PANIC TRIGGER (Global Key) */
-    window.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'l') {
-            if (document.activeElement.id === 'search-input') return;
-            lockScreen();
-        }
-    });
-</script>
-<script>
-    /* 1. THE ENGINE */
-    window.__uv$config = {
-        prefix: '/uv/service/',
-        bare: 'https://uv.holyubofficial.net', 
-        encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
-        decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
-    };
-
-    /* 2. THE CONTROLS */
-    function unlock() { 
-        document.getElementById('ixl-cloak').style.display = 'none'; 
-        document.getElementById('desktop').style.display = 'block'; 
-    }
-
-    function lockScreen() { 
-        document.getElementById('ixl-cloak').style.display = 'block'; 
-        document.getElementById('desktop').style.display = 'none'; 
-    }
-
-    /* 3. THE SEARCH BRAIN */
-    async function search() {
-        const input = document.getElementById('search-input').value.trim();
-        const frame = document.getElementById('game-frame');
-        if (!input) return;
-        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
-        if ('serviceWorker' in navigator) {
-            await navigator.serviceWorker.register('/sw.js');
-            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-            frame.src = "/uv/service/" + encoded;
-            document.getElementById('window').style.display = 'flex';
-        }
-    }
-
-    /* 4. THE 'L' PANIC KEY */
-    window.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'l') {
-            if (document.activeElement.id === 'search-input') return;
-            lockScreen();
-        }
-    });
-</script>
-</html>
-
 </html>
