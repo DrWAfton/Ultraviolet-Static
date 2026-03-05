@@ -123,5 +123,48 @@
         }
     });
 </script>
+<script>
+    /* 1. THE ENGINE */
+    window.__uv$config = {
+        prefix: '/uv/service/',
+        bare: 'https://uv.holyubofficial.net', 
+        encodeUrl: (url) => btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, ''),
+        decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
+    };
+
+    /* 2. THE CONTROLS */
+    function unlock() { 
+        document.getElementById('ixl-cloak').style.display = 'none'; 
+        document.getElementById('desktop').style.display = 'block'; 
+    }
+
+    function lockScreen() { 
+        document.getElementById('ixl-cloak').style.display = 'block'; 
+        document.getElementById('desktop').style.display = 'none'; 
+    }
+
+    /* 3. THE SEARCH BRAIN */
+    async function search() {
+        const input = document.getElementById('search-input').value.trim();
+        const frame = document.getElementById('game-frame');
+        if (!input) return;
+        let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+        if ('serviceWorker' in navigator) {
+            await navigator.serviceWorker.register('/sw.js');
+            const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+            frame.src = "/uv/service/" + encoded;
+            document.getElementById('window').style.display = 'flex';
+        }
+    }
+
+    /* 4. THE 'L' PANIC KEY */
+    window.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'l') {
+            if (document.activeElement.id === 'search-input') return;
+            lockScreen();
+        }
+    });
+</script>
+</html>
 
 </html>
