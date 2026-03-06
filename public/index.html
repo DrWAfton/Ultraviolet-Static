@@ -13,19 +13,33 @@
             decodeUrl: (url) => atob(url.replace(/_/g, '/').replace(/-/g, '+'))
         };
 
-        async function search() {
+               async function search() {
             const input = document.getElementById('search-input').value.trim();
             const frame = document.getElementById('game-frame');
             if (!input) return;
+
             let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
+            
             if ('serviceWorker' in navigator) {
-                // Register the proxy brain
-                await navigator.serviceWorker.register('/sw.js', { scope: '/uv/service/' });
-                const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
-                frame.src = "/uv/service/" + encoded;
-                document.getElementById('window').style.display = 'flex';
+                try {
+                    // This registers the proxy brain and forces it to wake up NOW
+                    await navigator.serviceWorker.register('/sw.js', { scope: '/uv/service/' });
+                    
+                    // Scramble the URL
+                    const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
+                    
+                    // Show the window and load the game
+                    document.getElementById('window').style.display = 'flex';
+                    frame.src = "/uv/service/" + encoded;
+                } catch (err) {
+                    console.error("Proxy Brain Error:", err);
+                    // Fallback if the proxy is being a pain
+                    document.getElementById('window').style.display = 'flex';
+                    frame.src = url; 
+                }
             }
         }
+
 
         function unlock() { document.getElementById('ixl-cloak').style.display = 'none'; document.getElementById('desktop').style.display = 'block'; }
         function lockScreen() { document.getElementById('ixl-cloak').style.display = 'block'; document.getElementById('desktop').style.display = 'none'; }
