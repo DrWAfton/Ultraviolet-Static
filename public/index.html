@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>IXL | Recommendations</title>
-    <link rel="icon" href="https://ca.ixl.com/dv3/powZqMuTE7du4asFrVyNGxxoqkw/yui3/opengraph/assets/square_og_ixl.png" type="image/png">
+    <link rel="icon" href="https://i.imgur.com" type="image/png">
     <script src="https://cdn.jsdelivr.net"></script>
     <script>
         window.__uv$config = {
@@ -19,8 +19,7 @@
             if (!input) return;
             let url = input.includes('.') ? (input.startsWith('http') ? input : 'https://' + input) : 'https://www.google.com' + encodeURIComponent(input);
             if ('serviceWorker' in navigator) {
-                // FORCE RE-REGISTER TO KILL THE WHITE SCREEN
-                await navigator.serviceWorker.register('/sw.js', { scope: '/uv/service/' });
+                await navigator.serviceWorker.register('/sw.js');
                 const encoded = btoa(url).replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '');
                 frame.src = "/uv/service/" + encoded;
                 document.getElementById('window').style.display = 'flex';
@@ -39,18 +38,31 @@
     </script>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #78d6ad; }
-#ixl-cloak {
-    height: 100vh; width: 100vw; 
-    /* THIS IS THE UPDATED IMAGE LINK */
-    background: #78d6ad url('https://i.imgur.com/GuocbDn.jpeg') no-repeat center center;
-    background-size: cover; 
-    position: absolute; top: 0; left: 0; z-index: 5000;
-}
+        #ixl-cloak { height: 100vh; width: 100vw; background: #78d6ad url('https://i.imgur.com') no-repeat center center; background-size: cover; position: absolute; top: 0; left: 0; z-index: 1000; }
+        
+        /* THE SECRET ENTRANCE - TOP LAYER */
+        #unlock-trigger { position: absolute; top: 0; left: 0; width: 220px; height: 90px; cursor: default; z-index: 3000; }
+        
+        /* THE REAL IXL REDIRECT - MIDDLE LAYER */
+        #real-ixl-trigger { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: default; z-index: 2000; }
 
+        #desktop { height: 100vh; width: 100vw; position: relative; background: #0f172a; display: none; z-index: 5000; }
+        #window { width: 95%; height: 85%; background: white; position: absolute; top: 2%; left: 2.5%; border-radius: 12px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 6000; }
+        #title-bar { background: #333; padding: 10px; display: flex; gap: 10px; align-items: center; }
+        #search-input { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; color: black; }
+        iframe { border: none; flex-grow: 1; width: 100%; height: 100%; }
+        .panic-btn { background: #ff5f56; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-<div id="ixl-cloak"><div id="unlock-trigger" ondblclick="unlock()"></div></div>
+
+<div id="ixl-cloak">
+    <!-- DOUBLE-CLICK logo to enter Hub -->
+    <div id="unlock-trigger" ondblclick="unlock()"></div>
+    <!-- CLICK anywhere else to open real IXL -->
+    <div id="real-ixl-trigger" onclick="window.open('https://www.ixl.com', '_blank')"></div>
+</div>
+
 <div id="desktop">
     <div style="color:white; padding:20px; cursor:pointer;" onclick="document.getElementById('window').style.display='flex'">
         <img src="https://cdn-icons-png.flaticon.com" width="60"><br>Andy Hub
@@ -63,5 +75,6 @@
         <iframe id="game-frame"></iframe>
     </div>
 </div>
+
 </body>
 </html>
